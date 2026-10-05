@@ -94,7 +94,7 @@ function buildQuery(array $overrides = []): string
 <body>
     <header><a href="index.php">Tsuchi-to-Hi</a></header>
     <main>
-        <h1>商品一覧</h1>
+        <h1>商品一覧(おすすめ)</h1>
 
         <form class="search-form" method="get" action="items.php">
             <input type="text" name="keyword" placeholder="商品名で検索"
