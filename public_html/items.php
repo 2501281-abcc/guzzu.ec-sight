@@ -110,7 +110,7 @@ function buildQuery(array $overrides = []): string
             <label>
                 並び替え：
                 <select name="sort">
-                    <option value="new" <?= $sort === 'new' ? 'selected' : '' ?>>新着順</option>
+                    <option value="new" <?= $sort === 'new' ? 'selected' : '' ?>>新しい順</option>
                     <option value="price_asc" <?= $sort === 'price_asc' ? 'selected' : '' ?>>価格の安い順</option>
                     <option value="price_desc" <?= $sort === 'price_desc' ? 'selected' : '' ?>>価格の高い順</option>
                 </select>
