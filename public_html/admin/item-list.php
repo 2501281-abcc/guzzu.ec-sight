@@ -6,7 +6,9 @@
  * 第9回で require_admin() を先頭に追加し、一般ユーザーがアクセスできないようにします。
  */
 require_once __DIR__ . '/../../includes/config.php';
-
+require_once __DIR__ . '/../../includes/auth.php';
+ 
+require_admin();
 $items = $pdo->query('SELECT id, name, price, stock, category FROM items ORDER BY created_at DESC')->fetchAll();
 ?>
 <!DOCTYPE html>
