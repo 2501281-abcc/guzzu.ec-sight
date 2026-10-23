@@ -6,6 +6,13 @@
 require_once __DIR__ . '/../includes/config.php';
 session_start();
 
+// ガード：ログインしていなければ、ログイン画面へ戻す
+if (!isset($_SESSION['user_id'])) {
+    $_SESSION['login_error'] = '続けるにはログインが必要です';
+    header('Location: login.php');
+    exit;
+}
+
 $user = null;
 if (isset($_SESSION['user_id'])) {
     $stmt = $pdo->prepare('SELECT name, role FROM users WHERE id = ?');
