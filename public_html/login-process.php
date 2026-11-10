@@ -30,7 +30,13 @@ if ($user && $user['locked_until'] !== null && strtotime($user['locked_until']) 
 }
 
 // ② いる かつ パスワード一致 → 成功
-if ($user && $password === $user['password']) {
+//  旧データ（平文）で一致した場合は、その場でハッシュ化し直す（移行）
+$plainMatch = ($user && $password === $user['password']);
+if ($user && password_verify($password, $user['password'])) {
+    if ($plainMatch) {
+        $rehash = $pdo->prepare('UPDATE users SET password = ? WHERE id = ?');
+        $rehash->execute([password_hash($password, PASSWORD_DEFAULT), $user['id']]);
+    }
     $reset = $pdo->prepare('UPDATE users SET failed_count = 0, locked_until = NULL WHERE id = ?');
     $reset->execute([$user['id']]);
 
