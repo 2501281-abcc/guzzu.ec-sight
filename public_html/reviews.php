@@ -63,7 +63,7 @@ $loggedIn = isset($_SESSION['user_id']);
                     <?= htmlspecialchars($r['name']) ?> さん
                     <span class="stars"><?= str_repeat('★', (int) $r['rating']) . str_repeat('☆', 5 - (int) $r['rating']) ?></span>
                 </div>
-                <div class="review-body"><?= $r['body'] ?></div>
+                <div class="review-body"><?= htmlspecialchars($r['body']) ?></div>
             </div>
         <?php endforeach; ?>
 

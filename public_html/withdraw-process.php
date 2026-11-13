@@ -15,6 +15,14 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
+// CSRF 対策：セッションのトークンと、送られてきたトークンが一致しなければ止める
+$sent  = $_POST['csrf_token'] ?? '';
+$saved = $_SESSION['csrf_token'] ?? '';
+if (!is_string($sent) || $saved === '' || !hash_equals($saved, $sent)) {
+    http_response_code(400);
+    exit('不正なリクエストです');
+}
+
 // 会員を削除する（書いたレビューも一緒に消える）
 $stmt = $pdo->prepare('DELETE FROM users WHERE id = ?');
 $stmt->execute([$_SESSION['user_id']]);
