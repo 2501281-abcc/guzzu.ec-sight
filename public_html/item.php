@@ -15,6 +15,15 @@ if (!$item) {
     echo '商品が見つかりませんでした。<a href="items.php">一覧に戻る</a>';
     exit;
 }
+$isFavorite = false;
+if (isset($_SESSION['user_id'])) {
+    $stmt = $pdo->prepare(
+        'SELECT 1 FROM favorites WHERE user_id = ? AND item_id = ?'
+    );
+    $stmt->execute([(int) $_SESSION['user_id'], $id]);
+    $isFavorite = (bool) $stmt->fetchColumn();
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -40,6 +49,11 @@ if (!$item) {
             ここでは表示のみにとどめています。
         -->
         <button disabled>カートに入れる（第14回で実装予定）</button>
+        <form action="favorite-toggle.php" method="post">
+            <input type="hidden" name="item_id" value="<?= (int) $item['id'] ?>">
+            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES, 'UTF-8') ?>">
+            <button><?= $isFavorite ? '♥ お気に入り済み（解除）' : '♡ お気に入りに登録' ?></button>
+        </form>
     </main>
 </body>
 </html>
